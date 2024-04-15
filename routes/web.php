@@ -35,11 +35,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/user', [UserController::class, 'index'])->name('user.index')->middleware('admin');
-    Route::post('/user/create', [UserController::class, 'store'])->name('register')->middleware('admin');
-    Route::delete('/user/{id}', [UserController::class, 'destroy'])->middleware('admin');
-    Route::put('/user/{id}', [UserController::class, 'edit'])->middleware('admin');
-
     Route::get('/product', function () {
         return Inertia::render('Product/Main');
     });
