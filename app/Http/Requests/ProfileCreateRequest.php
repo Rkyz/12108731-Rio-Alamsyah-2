@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+<!-- import { useEffect } from 'react';
 import MainLayout from '@/Layouts/MainLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
@@ -74,7 +74,7 @@ export default function Create({setForm}) {
                         id="role"
                         className='border-gray-300 w-full focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'
                         onChange={(e) => {
-                            console.log(e.target.value); // Tambahkan ini untuk melacak nilai yang dipilih dari dropdown
+                            console.log(e.target.value);
                             setData('role', e.target.value)
                         }}
                         required
@@ -117,6 +117,8 @@ export default function Create({setForm}) {
                         required
                     />
 
+
+
                     <InputError message={errors.password_confirmation} className="mt-2" />
                 </div>
                 <button className='w-full bg-red-500 text-white p-[10px] rounded-md font-bold capitalize'>
@@ -127,4 +129,4 @@ export default function Create({setForm}) {
             </div>
 
     );
-}
+} -->

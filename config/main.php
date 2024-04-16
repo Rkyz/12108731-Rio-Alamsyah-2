@@ -1,4 +1,4 @@
-import NoData from '@/Components/NoData';
+<!-- import NoData from '@/Components/NoData';
 import TextInput from '@/Components/TextInput';
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
@@ -174,4 +174,4 @@ const Main = ({users, auth}) => {
     );
 }
 
-export default Main
+export default Main -->
