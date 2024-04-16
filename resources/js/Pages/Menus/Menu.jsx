@@ -1,4 +1,3 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, Link } from '@inertiajs/react';
 import { GrPrevious } from "react-icons/gr";
@@ -29,16 +28,6 @@ export default function Menu({ auth }) {
 
 
     return (
-        // // <AuthenticatedLayout
-        // //     user={auth.user}
-        // //     header={<h2 className="font-semibold text-xl text-gray-800 idk:text-gray-200 leading-tight">Dashboard</h2>}
-        // // >
-        //     <Side>
-        // <div className='h-screen w-full'>
-        
-        //     </Side>
-        // </div>
-        // // </AuthenticatedLayout>
         <MainLayout
         auth={auth}
         handleOpenMenu={handleOpenMenu}

@@ -1,4 +1,3 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import MainLayout from '@/Layouts/MainLayout';
 import {Head, Link, router, useForm, usePage} from '@inertiajs/react';
 import {GrPrevious} from "react-icons/gr";

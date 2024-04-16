@@ -4,6 +4,8 @@ import {FaRegTrashCan} from "react-icons/fa6";
 import React from 'react'
 import { AiOutlinePlus } from 'react-icons/ai';
 import { GrFormPrevious } from 'react-icons/gr';
+import { IoClose } from 'react-icons/io5';
+import TextInput from '@/Components/TextInput';
 
 const Main = ({side,handleForm, auth}) => {
 
@@ -32,7 +34,7 @@ const Main = ({side,handleForm, auth}) => {
                             : 'vlg:grid-cols-3 max-vlg:grid-cols-2 max-md:grid-cols-2 max-lsm:grid-cols-1'}
                             h-auto
                             `}>
-                                <div className={`bg-white p-[15px] relative rounded-sm justify-between card gap-[20px]  ${auth.user.role === 'admin' ? 'flex flex-col':'grid grid-cols-2'}`}>
+                                <div className={`bg-white p-[15px] relative rounded-sm justify-between card  gap-[20px]  ${auth.user.role === 'admin' ? 'flex flex-col':'grid grid-cols-2'}`}>
                                     <div className='flex items-center justify-between col-span-2'>
                                         <div className='flex items-center gap-[15px]'>
                                             <div className='w-[50px] text-white flex items-center justify-center font-bold rounded-md h-[50px]' style={{ backgroundColor: 'red' }}>
@@ -77,6 +79,20 @@ const Main = ({side,handleForm, auth}) => {
                                             </button>
                                         </div>
                                         )}
+                                    </div>
+                                <div className='absolute hidden flex flex-col gap-[10px] w-full h-full card flip-reverse bg-white right-0 top-0 p-[10px] rounded-sm'>
+                                        <div className='flex items-center justify-between'>
+                                            <p className='capitalize font-bold'>restock product - {'hello'}</p>
+                                            <button >
+                                                <IoClose/>
+                                            </button>
+                                        </div>
+                                        <form className='flex flex-col gap-[10px]'>
+                                            <div className='w-full'>
+                                                <TextInput type="number" className={`w-full`} id="stok" />
+                                            </div>
+                                                <button className='bg-red-500 text-white p-[8px] rounded-md capitalize font-bold'>restok</button>
+                                        </form>
                                     </div>
                                 </div>
                     </div>
