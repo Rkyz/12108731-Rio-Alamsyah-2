@@ -14,10 +14,28 @@ import {BsTrash} from 'react-icons/bs';
 import InputLabel from '@/Components/InputLabel';
 import Swal from 'sweetalert2';
 
-export default function Dashboard({auth}) {
+export default function Dashboard({auth, categorys}) {
 
-    const handleNotification = (e, count) => {
-        if (count === 0) {
+    console.log(auth, 'asu lah kalian')
+    const [openEdit, setOpenEdit] = useState(false)
+    const [dataEdit, setDataEdit] = useState(null)
+    const {data , setData} = useForm({
+        category:''
+    })
+
+    console.log(dataEdit, 'heloo gusy')
+
+    const handleOpenEdit = (category) => {
+        setOpenEdit(true)
+        setDataEdit(category)
+    }
+    const handleCloseEdit = () => {
+        setOpenEdit(false)
+        setDataEdit(null)
+    }
+
+    const handleNotification = (e, category) => {
+        if (category.products_count === 0) {
             e.preventDefault();
             alert('There are no products available in this category.');
         }
@@ -27,6 +45,32 @@ export default function Dashboard({auth}) {
 
     const handleAddCategory = () => {
         setAddCategory(!addCategory)
+    }
+
+    
+    function handleChange(e) {
+        const {name, value} = e.target;
+        setData(values => ({
+            ...values,
+            [name]: value
+        }));
+    }
+
+
+
+    // const categoryCreate = (e) => {
+    //     e.preventDefault();
+    //     router.post("/menus/category", data)
+    // };
+
+    const handleEdit = (e) => {
+        e.preventDefault();
+        try {
+            router.put(`/menus/${dataEdit.id}`, data);
+           setOpenEdit(false)
+        } catch (error) {
+            console.error('Failed to edit user:', error);
+        }
     }
 
     return (
@@ -90,54 +134,55 @@ export default function Dashboard({auth}) {
                            )}
                         </div>
                         <div className='w-full h-full flex flex-col gap-[10px]'>
-                            <div className='w-full flex flex-col  bg-[#EEEEF1] gap-[10px] rounded-sm'>
-                                <div className='w-full flex items-center justify-between'>
-                                    <Link
-                                        onClick={(e) => handleNotification(e, 0)}
-                                        className='flex items-center bg-transparent w-full gap-[10px] p-[10px]'>
-                                        <img src={burger} alt="" className='w-[60px]'/>
-                                        <p className='font-bold capitalize'>china</p>
-                                    </Link>
-                                    <div className='flex flex-row-reverse p-[10px] items-center gap-[20px]'>
-                                        {
-                                            auth.user.role === 'admin' && (
-                                                <div className='flex items-center pr-[10px] gap-[15px]'>
-                                                    <button
-                                                        className='border-red-500 hidden border-[2px] text-[20px] p-[10px] rounded-md text-red-500 hover:bg-red-500 hover:text-white'>
-                                                        <IoClose/> {/* Gunakan IoClose di sini */}
-                                                    </button>
-                                                    <button
-                                                        className='border-red-500 hidden border-[2px] text-[20px] p-[10px] rounded-md text-red-500 hover:bg-red-500 hover:text-white'>
-                                                        <GoPencil/>
-                                                    </button>
-                                                    <button
-                                                        className='border-transparent hidden border-[2px] text-[20px] p-[10px] rounded-md text-white bg-red-500 hover:bg-transparent hover:border-red-500 hover:text-red-500'>
-                                                        <BsTrash/>
-                                                    </button>
-                                                </div>
-                                            )
-                                        }
-                                        <div className='whitespace-nowrap'>
-                                            <p>10 / Products</p>
+                            {categorys.map((category, index) => {
+                                return (
+                                <div className='w-full flex flex-col  bg-[#EEEEF1] gap-[10px] rounded-sm'>
+                                    <div className='w-full flex items-center justify-between'>
+                                        <Link
+                                            onClick={(e) => handleNotification(e, category)}
+                                            className='flex items-center bg-transparent w-full gap-[10px] p-[10px]'>
+                                            <img src={burger} alt="" className='w-[60px]'/>
+                                            <p className='font-bold capitalize'>{category.category}</p>
+                                        </Link>
+                                        <div className='flex flex-row-reverse p-[10px] items-center gap-[20px]'>
+                                                    <div className='flex items-center pr-[10px] gap-[15px]'>
+                                                        {openEdit && dataEdit?.id === category.id ? (
+                                                            <button
+                                                                onClick={handleCloseEdit}
+                                                                className='border-red-500 border-[2px] text-[20px] p-[10px] rounded-md text-red-500 hover:bg-red-500 hover:text-white'>
+                                                                <IoClose/> {/* Gunakan IoClose di sini */}
+                                                            </button>
+                                                        ):(
+                                                            <button
+                                                                onClick={()=>handleOpenEdit(category)}
+                                                                className='border-red-500 border-[2px] text-[20px] p-[10px] rounded-md text-red-500 hover:bg-red-500 hover:text-white'>
+                                                                <GoPencil/>
+                                                            </button>
+                                                        )}
+                                                        <button
+                                                            className='border-transparent border-[2px] text-[20px] p-[10px] rounded-md text-white bg-red-500 hover:bg-transparent hover:border-red-500 hover:text-red-500'>
+                                                            <BsTrash/>
+                                                        </button>
+                                                    </div>
+                                            <div className='whitespace-nowrap'>
+                                                {category.products_count > 0 && (
+                                                    <p>{category.products_count} / Products</p>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                {
-                                    auth.user.role === 'admin' && (
-                                        <form
-                                            className='bg-transparent hidden w-full flex items-center gap-[10px] px-[15px] pb-[10px]'>
-                                            <InputLabel
-                                                className='bg-white border border-gray-300 p-[10px] rounded-md whitespace-nowrap'>Edit Category</InputLabel>
-                                            <TextInput
-                                                type="text"
-                                                name="category"
-                                                placeholder='input your edit category'
-                                                className="w-full placeholder:capitalize placeholder:font-bold"/>
+                                    {
+                                        auth.user.role === 'admin' && dataEdit?.id === category.id &&  (
+                                            <form onSubmit={handleEdit} className='bg-transparent w-full flex items-center gap-[10px] px-[15px] pb-[10px]'>
+                                            <InputLabel className='bg-white border border-gray-300 p-[10px] rounded-md whitespace-nowrap'>Edit Category</InputLabel>
+                                            <TextInput type="text" defaultValue={category.category} name="category" onChange={handleChange} placeholder='input your edit category' className="w-full placeholder:capitalize placeholder:font-bold" />
                                             <button className='bg-red-500 p-[8px] rounded-md capitalize text-white'>submit</button>
                                         </form>
-                                    )
-                                }
-                            </div>
+                                        )
+                                    }
+                                </div>
+                                )
+                            })}
 
                         </div>
                     </div>

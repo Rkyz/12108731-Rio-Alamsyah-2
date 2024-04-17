@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthenticatedSessionController;
 use Illuminate\Foundation\Application;
@@ -31,9 +32,6 @@ use Inertia\Inertia;
             return Inertia::render('Dashboard');
         })->name('dashboard');
 
-        Route::get('/menus', function () {
-            return Inertia::render('Menus/Food');
-        });
         Route::get('/menus/food', function () {
             return Inertia::render('Menus/Menu');
         });
@@ -53,6 +51,10 @@ use Inertia\Inertia;
         Route::post('/product', [ProductController::class, 'store']);
         Route::put('/product/stok/{id}', [ProductController::class, 'updateStok']);
         Route::delete('/product/{id}', [ProductController::class, 'destroy']);
+        
+        Route::get('/menus', [CategoryController::class, 'index']);
+        Route::post('/category', [CategoryController::class, 'store']);
+
     });
 
 

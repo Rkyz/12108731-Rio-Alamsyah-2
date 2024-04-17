@@ -25,10 +25,10 @@ class ProductController extends Controller
             'price' => 'required',
             'stock' => 'required',
         ],[
-            'name.required' => 'nama lu kosong goblok',
-            'price.required' => 'price lu kosong goblok',
-            'stock.required' => 'stock lu kosong goblok',
-            'name.unique' => 'nama lu jan sama setan',
+            'name.required' => 'nama lu kosong dong',
+            'price.required' => 'price lu kosong dong',
+            'stock.required' => 'stock lu kosong dong',
+            'name.unique' => 'nama lu jan sama yah',
         ]);
 
             $product = new Product([
