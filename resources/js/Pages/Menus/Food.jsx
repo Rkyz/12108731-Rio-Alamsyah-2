@@ -14,16 +14,16 @@ import {BsTrash} from 'react-icons/bs';
 import InputLabel from '@/Components/InputLabel';
 import Swal from 'sweetalert2';
 
-export default function Dashboard({auth, categorys}) {
+export default function Dashboard({auth, categorys, customers}) {
 
-    console.log(auth, 'asu lah kalian')
+    console.log(customers, 'testing')
+
     const [openEdit, setOpenEdit] = useState(false)
     const [dataEdit, setDataEdit] = useState(null)
     const {data , setData} = useForm({
         category:''
     })
 
-    console.log(dataEdit, 'heloo gusy')
 
     const handleOpenEdit = (category) => {
         setOpenEdit(true)
@@ -56,18 +56,39 @@ export default function Dashboard({auth, categorys}) {
         }));
     }
 
-
-
-    // const categoryCreate = (e) => {
-    //     e.preventDefault();
-    //     router.post("/menus/category", data)
-    // };
+    const categoryCreate = (e) => {
+        e.preventDefault();
+        try {
+            router.post("/menus", data)
+            setAddCategory(false)
+        } catch (error) {
+            console.error('Failed to edit user:', error);
+        }
+        
+    };
+   
+    const handleDelete = (category) => {
+        Swal.fire({
+          title: 'Yakin Nih Mau Hapus?',
+          text: "Jan Nyesel Yah!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Ya, hapus saja!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.delete(`/menus/${category.id}`);
+          }
+        });
+      };
 
     const handleEdit = (e) => {
         e.preventDefault();
         try {
             router.put(`/menus/${dataEdit.id}`, data);
-           setOpenEdit(false)
+            setOpenEdit(false)
+            setDataEdit(null)
         } catch (error) {
             console.error('Failed to edit user:', error);
         }
@@ -124,8 +145,8 @@ export default function Dashboard({auth, categorys}) {
                             {addCategory && ( 
                             <div className='bg-white flex flex-col gap-[10px] top-[50px] before:bg-white border-red-500 border before:border-l before:border-t before:border-red-500 before:w-[10px] before:h-[10px] before:absolute before:right-[13px] before:-top-[6px] before:rotate-45 capitalize absolute sm:right-[138px] p-[10px] rounded-sm max-sm:w-full sm:w-auto max-w-full'>
                                 <p className='font-medium text-[14px]'>add category</p>
-                                <form className='flex flex-col gap-[10px]'>
-                                    <TextInput name="category" type="text" className="border-red-500 placeholder:capitalize placeholder:text-[14px]" placeholder="input your category..." />
+                                <form onSubmit={categoryCreate} className='flex flex-col gap-[10px]'>
+                                    <TextInput name="category" type="text" className="border-red-500 placeholder:capitalize placeholder:text-[14px]" placeholder="input your category..." onChange={handleChange}/>
                                     <button className='text-white bg-red-500 p-[5px] rounded-sm capitalize font-bold'>
                                         add
                                     </button>
@@ -135,6 +156,7 @@ export default function Dashboard({auth, categorys}) {
                         </div>
                         <div className='w-full h-full flex flex-col gap-[10px]'>
                             {categorys.map((category, index) => {
+                                console.log('hello', category)
                                 return (
                                 <div className='w-full flex flex-col  bg-[#EEEEF1] gap-[10px] rounded-sm'>
                                     <div className='w-full flex items-center justify-between'>
@@ -144,7 +166,8 @@ export default function Dashboard({auth, categorys}) {
                                             <img src={burger} alt="" className='w-[60px]'/>
                                             <p className='font-bold capitalize'>{category.category}</p>
                                         </Link>
-                                        <div className='flex flex-row-reverse p-[10px] items-center gap-[20px]'>
+                                        <Link href={`/menus/${category.category}`} className='flex flex-row-reverse p-[10px] items-center gap-[20px]'>
+                                            {auth.user.role === 'admin' && (
                                                     <div className='flex items-center pr-[10px] gap-[15px]'>
                                                         {openEdit && dataEdit?.id === category.id ? (
                                                             <button
@@ -160,16 +183,18 @@ export default function Dashboard({auth, categorys}) {
                                                             </button>
                                                         )}
                                                         <button
+                                                            onClick={()=> handleDelete(category)}
                                                             className='border-transparent border-[2px] text-[20px] p-[10px] rounded-md text-white bg-red-500 hover:bg-transparent hover:border-red-500 hover:text-red-500'>
                                                             <BsTrash/>
                                                         </button>
                                                     </div>
+                                            )}
                                             <div className='whitespace-nowrap'>
                                                 {category.products_count > 0 && (
                                                     <p>{category.products_count} / Products</p>
                                                 )}
                                             </div>
-                                        </div>
+                                        </Link>
                                     </div>
                                     {
                                         auth.user.role === 'admin' && dataEdit?.id === category.id &&  (

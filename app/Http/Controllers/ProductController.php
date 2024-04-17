@@ -71,4 +71,20 @@ class ProductController extends Controller
 
         return redirect()->back()->with('message', 'Product berhasil dihapus.');
     }
+
+    public function show($category)
+    {
+       $category = Category::where('category', $category)->first();
+
+       if (!$category) {
+           abort(404, 'Kategori tidak ditemukan');
+       }
+
+       $products = $category->products;
+
+       return Inertia::render('Menus/Menu', [
+           'category' => $category,
+           'products' => $products,
+       ]);
+    }
 }

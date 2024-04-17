@@ -8,6 +8,8 @@ import { AiOutlinePlus } from 'react-icons/ai';
 import { GrClose, GrFormPrevious } from 'react-icons/gr';
 import { IoClose } from 'react-icons/io5';
 import Swal from 'sweetalert2';
+import * as XLSX from 'xlsx';
+
 
 const Main = ({users, auth}) => {
     const [isEditActive, setIsEditActive] = useState(false); 
@@ -15,6 +17,8 @@ const Main = ({users, auth}) => {
 
     const roleUtama = 'admin'
 
+
+    console.log(users)
     const { data, setData } = useForm({
         name: editedUser ? editedUser.name : '', 
         role: editedUser ? editedUser.role : roleUtama, 
@@ -85,6 +89,35 @@ const Main = ({users, auth}) => {
         setEditedUser(null);
     };
 
+    const exportToExcel = () => {
+        const wb = XLSX.utils.book_new();
+
+            const wsData = Object.values(users).map(user => [
+                user.name,     
+                user.email,       
+                user.role,  
+              ]);
+            
+      
+        const ws = XLSX.utils.aoa_to_sheet([
+          ["Name", "Email", "Role"],
+          ...wsData
+        ]);
+      
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      
+        const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const fileName = `sales.xlsx`;
+        const blob = new Blob([wbout], { type: 'application/octet-stream' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };    
+
     return (
         <MainLayout 
         auth={auth}
@@ -99,9 +132,14 @@ const Main = ({users, auth}) => {
                     <div
                         className='bg-white w-full sticky sm:top-[96.5px] border border-gray-200 flex items-center justify-between h-auto p-[15px] rounded-sm'>
                         <p className='capitalize font-bold'>user management - {auth.user.name}</p>
-                        <Link href='/user/create' className='text-red-500 sm:hidden'>
-                            <AiOutlinePlus/>
-                        </Link>
+                        <div className='flex items-center gap-[10px]'>
+                            <button onClick={exportToExcel}>
+                                expoerrt
+                            </button>
+                            <Link href='/user/create' className='text-red-500 sm:hidden'>
+                                <AiOutlinePlus/>
+                            </Link>
+                        </div>
                     </div>
                 </div>
                 <div className={`w-full bg-transparent grid  gap-[10px] grid-cols-4 max-vlg:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 ${filteredUsers.length > 0 ? 'h-auto':'h-full'}`}>

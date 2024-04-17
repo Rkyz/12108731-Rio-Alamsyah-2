@@ -10,6 +10,7 @@ import NoData from '@/Components/NoData';
 import { IoClose } from 'react-icons/io5';
 import { BsDoorOpen } from "react-icons/bs";
 import TextInput from '@/Components/TextInput';
+import * as XLSX from 'xlsx';
 
 const Main = ({side, products, categorys, handleEdit, edit, auth, handleForm}) => {
 
@@ -92,6 +93,35 @@ const Main = ({side, products, categorys, handleEdit, edit, auth, handleForm}) =
         return colors[userId % colors.length]; 
     };
 
+    const exportToExcel = () => {
+        const wb = XLSX.utils.book_new();
+
+            const wsData = Object.values(products).map(product => [
+                product.name,     
+                product.price,       
+                product.stock,  
+              ]);
+            
+      
+        const ws = XLSX.utils.aoa_to_sheet([
+          ["Name", "Price", "Stock"],
+          ...wsData
+        ]);
+      
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+      
+        const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const fileName = `sales.xlsx`;
+        const blob = new Blob([wbout], { type: 'application/octet-stream' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
+
 
     return (
         <MainLayout
@@ -106,9 +136,14 @@ const Main = ({side, products, categorys, handleEdit, edit, auth, handleForm}) =
                 <div
                     className='bg-white w-full sticky sm:top-[96.5px] border border-gray-200 flex items-center justify-between h-auto p-[15px] rounded-sm'>
                     <p className='capitalize font-bold'>product management</p>
+                    <div className='flex items-center gap-[10px]'>
+                        <button onClick={exportToExcel}>
+                            expoert
+                        </button>
                     <button onClick={handleForm} className='text-red-500 sm:hidden'>
                         <AiOutlinePlus/>
                     </button>
+                    </div>
                 </div>
                 </div>
                 <div className='flex flex-col h-full gap-[10px]'>
@@ -119,7 +154,7 @@ const Main = ({side, products, categorys, handleEdit, edit, auth, handleForm}) =
                             ${products.length > 0 ? 'h-auto':'h-full'}
                             `}>
                         {products.length > 0 ? (   
-                            products.map((product, index) => {
+                            products?.map((product, index) => {
                                 const userColor = getUserColor(product.id);
                                 console.log(product.category)
                                 return (

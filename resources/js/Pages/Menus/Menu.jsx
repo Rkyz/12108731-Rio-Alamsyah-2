@@ -6,16 +6,10 @@ import { GrFormNext } from "react-icons/gr";
 import { useState } from 'react';
 import burger from '../../../img/burger.png'
 
-export default function Menu({ auth }) {
+export default function Menu({ auth, products }) {
 
-    const products = [
-        {id: 1, name: 'burger', price: 10000},
-        {id: 2, name: 'burger', price: 10000},
-        {id: 3, name: 'burger', price: 10000},
-        {id: 4, name: 'burger', price: 10000},
-        {id: 5, name: 'burger', price: 10000},
-        {id: 6, name: 'burger', price: 10000},
-    ]
+    console.log(products, 'hello')
+
     const [openMenu, setOpenMenu] = useState(false)
     const [dataProduct, setDataProduct] = useState(null)
 
@@ -67,7 +61,7 @@ export default function Menu({ auth }) {
                     </div>
                     <div className='w-full gap-[10px] h-auto bg-transparent  grid grid-cols-6 max-vlg:grid-cols-5 max-lg:grid-cols-4 max-lsm:grid-cols-3 max-sm:grid-cols-2'>
                         {products.map((product,index)=> (
-                            <button key={index} className='flex flex-col bg-white rounded-md w-full h-auto items-center p-[20px]'>
+                            <button key={index} onClick={()=>handleOpenMenu(product)}  className='flex flex-col bg-white rounded-md w-full h-auto items-center p-[20px]'>
                                 <img src={burger} alt="" className='w-[100px]'/>
                                 <div className='flex flex-col gap-[5px]'>
                                 <p className='text-[16px] font-bold text-black capitalize'>{product.name}</p>

@@ -4,15 +4,16 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Models\Customer;
-use Illuminate\Support\Facades\View;
 
 class ShareCustomerData
 {
-    // public function handle($request, Closure $next)
-    // {
-    //     $customers = Customer::all();
-    //     View::share('customers', $customers);
+    public function handle($request, Closure $next)
+    {
+        if (class_exists(Customer::class)) {
+            $customers = Customer::all();
+            view()->share('customers', $customers);
+        }
 
-    //     return $next($request);
-    // }
+        return $next($request);
+    }
 }

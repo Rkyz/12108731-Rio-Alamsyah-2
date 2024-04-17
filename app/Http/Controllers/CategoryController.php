@@ -29,9 +29,9 @@ class CategoryController extends Controller
             'category' => $data['category'],
         ]);
     
-        $product->save();
+        $category->save();
 
-        return redirect()->back->with('message', 'Category Berhasil Disimpan');
+        return redirect()->back()->with('message', 'Category Berhasil Disimpan');
     }
 
     public function edit(Request $request, $id)
@@ -49,5 +49,13 @@ class CategoryController extends Controller
         ]);
     
         return redirect()->back()->with('message', 'Category Berhasil Diedit');
+    }
+
+    public function destroy($id)
+    {
+        $category = Category::findOrFail($id);
+        $category->delete();
+
+        return redirect()->back()->with('message', 'Category berhasil dihapus.');
     }
 }
