@@ -130,15 +130,14 @@ const Side = ({side}) => {
                                                     : 'md:hidden'}`}>product</p>
                                     </Link>
                                 </li>
-                                {/* {role === 'admin' && (
-                                <li className='relative'>
-                                    <Link href="/user" className={`flex items-center gap-[10px] px-[20px] max-sm:p-[15px] max-sm:text-[18px] max-sm:rounded-md  ${url === '/user' | url === '/user/create' && 'sm:bg-transparent max-sm:bg-red-500 max-sm:before:hidden  before:bg-red-500 before:h-full before:w-[5px] before:absolute before:left-0'} ${side ? 'max-md:justify-center':'md:justify-center max-sm:justify-center'}  `}>
-                                        <PiUsersThreeLight className={`text-[20px] ${url === '/user' | url === '/user/create'  ? 'text-[#D68285] max-sm:text-white':'text-gray-400'}`}/>
-                                        <p className={`capitalize font-medium max-sm:hidden text-gray-400 text-[15px] ${url === '/user' | url === '/user/create'  ? 'text-gray-500':'text-gray-400'} ${side ? 'max-md:hidden':'md:hidden'}`}>user</p>
-                                    </Link>
-                                </li>
-                                )} */
-                                }
+                                 {role === 'admin' && (
+                                    <li className='relative'>
+                                        <Link href="/user" className={`flex items-center gap-[10px] px-[20px] max-sm:p-[15px] max-sm:text-[18px] max-sm:rounded-md  ${url === '/user' | url === '/user/create' && 'sm:bg-transparent max-sm:bg-red-500 max-sm:before:hidden  before:bg-red-500 before:h-full before:w-[5px] before:absolute before:left-0'} ${side ? 'max-md:justify-center':'md:justify-center max-sm:justify-center'}  `}>
+                                            <PiUsersThreeLight className={`text-[20px] ${url === '/user' | url === '/user/create'  ? 'text-[#D68285] max-sm:text-white':'text-gray-400'}`}/>
+                                            <p className={`capitalize font-medium max-sm:hidden text-gray-400 text-[15px] ${url === '/user' | url === '/user/create'  ? 'text-gray-500':'text-gray-400'} ${side ? 'max-md:hidden':'md:hidden'}`}>user</p>
+                                        </Link>
+                                    </li>
+                                )}
                             </ul>
                         </div>
                         <div
@@ -223,7 +222,7 @@ const Side = ({side}) => {
                     </button>
                 </div>
                 <Link
-                    // href={route('logout')}
+                    href={route('logout')}
                     method="post"
                     as="button"
                     className='sm:bg-red-500 max-sm:bg-red-500 max-sm:p-[10px] max-sm:justify-start max-sm:flex max-sm:text-white gap-[10px] sm:p-[10px] text-[15px] flex items-center justify-center text-white capitalize rounded-md max-sm:font-medium sm:font-bold'>

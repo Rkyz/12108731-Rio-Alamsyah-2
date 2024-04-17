@@ -6,9 +6,12 @@ import {Link, usePage} from '@inertiajs/react'
 import {AiOutlinePlus} from "react-icons/ai";
 import Form from '@/Components/Form'
 import CreateProduct from '@/Pages/Product/Create'
+import CreateUser from '@/Pages/User/Create'
 
-const MainLayout = ({children, categories, auth}) => {
+const MainLayout = ({children, categories, auth, categorys}) => {
     const [side, setOpenSide] = useState(false)
+
+    console.log(categorys, 'digunia')
 
     const handleSide = () => {
         setOpenSide(!side)
@@ -48,7 +51,12 @@ const MainLayout = ({children, categories, auth}) => {
                                 <Form handleForm={handleForm} url={url}>
                                     {
                                         url === '/product' && (
-                                            <CreateProduct categories={categories} setForm={setForm}/>
+                                            <CreateProduct categorys={categorys} setForm={setForm}/>
+                                        )
+                                    }
+                                    {
+                                        url === '/user' && (
+                                            <CreateUser  setForm={setForm}/>
                                         )
                                     }
                                 </Form>
